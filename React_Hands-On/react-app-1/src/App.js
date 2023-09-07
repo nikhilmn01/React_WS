@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import Expenses from './components/Expenses/Expenses';
+import NewExpense from './components/NewExpense/NewExpense';
 
 const App = () => {
   const expenses = [
@@ -24,6 +25,7 @@ const App = () => {
       date: new Date(2021, 5, 12),
     },
   ];
+  const [formData,setFormData] = useState({});
 
   // return React.createElement(
   //   'div',
@@ -31,11 +33,13 @@ const App = () => {
   //   React.createElement('h2', {}, "Let's get started!"),
   //   React.createElement(Expenses, { items: expenses })
   // );
-
+  const handleSubmitExpenseForm = (expenseData) => {
+    setFormData({...expenseData});
+  }
   return (
     <div>
-      <h2>Let's get started!</h2>
-      <Expenses items={expenses} />
+      <NewExpense onSubmitExpenseForm={handleSubmitExpenseForm}/>
+      <Expenses items={expenses} formData={formData}/>
     </div>
   );
 }

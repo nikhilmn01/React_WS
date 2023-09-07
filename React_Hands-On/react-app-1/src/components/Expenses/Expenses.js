@@ -1,10 +1,25 @@
-import React from 'react';
+import React, { useState,useEffect } from 'react';
 
 import ExpenseItem from './ExpenseItem';
 import Card from '../UI/Card';
 import './Expenses.css';
 
 const Expenses = (props) => {
+  const [newExpenseItemArray,setNewExpenseItemArray] = useState([]);
+  console.log(`form data: ${JSON.stringify(props.formData)}`);
+  useEffect(() => {
+    if (Object.keys(props.formData).length !== 0) {
+      const newExpense =
+        <ExpenseItem
+          title={props.formData.title}
+          amount={props.formData.amount}
+          date={props.formData.date}
+        />
+
+        // Update the state by creating a new array that includes the newExpense
+        setNewExpenseItemArray((prevExpenseItems) => [...prevExpenseItems, newExpense]);
+      }
+  }, [props.formData]);
   return (
     <Card className="expenses">
       <ExpenseItem
@@ -27,6 +42,9 @@ const Expenses = (props) => {
         amount={props.items[3].amount}
         date={props.items[3].date}
       />
+      <div>
+        {newExpenseItemArray}
+      </div>
     </Card>
   );
 }
