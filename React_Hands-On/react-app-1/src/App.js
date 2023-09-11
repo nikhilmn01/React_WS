@@ -25,7 +25,7 @@ const App = () => {
       date: new Date(2021, 5, 12),
     },
   ];
-  const [formData,setFormData] = useState({});
+  const [formData,setFormData] = useState(expenses);
 
   // return React.createElement(
   //   'div',
@@ -34,12 +34,14 @@ const App = () => {
   //   React.createElement(Expenses, { items: expenses })
   // );
   const handleSubmitExpenseForm = (expenseData) => {
-    setFormData({...expenseData});
-  }
+    setFormData((prevExpenses) => {
+      return [expenseData, ...prevExpenses];
+    });
+  };
   return (
     <div>
       <NewExpense onSubmitExpenseForm={handleSubmitExpenseForm}/>
-      <Expenses items={expenses} formData={formData}/>
+      <Expenses items={formData}/>
     </div>
   );
 }

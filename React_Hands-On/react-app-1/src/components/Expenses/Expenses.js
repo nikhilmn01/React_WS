@@ -1,50 +1,35 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState } from 'react';
 
 import ExpenseItem from './ExpenseItem';
 import Card from '../UI/Card';
 import './Expenses.css';
+import ExpensesFilter from './ExpensesFilter';
 
 const Expenses = (props) => {
-  const [newExpenseItemArray,setNewExpenseItemArray] = useState([]);
-  console.log(`form data: ${JSON.stringify(props.formData)}`);
-  useEffect(() => {
-    if (Object.keys(props.formData).length !== 0) {
-      const newExpense =
-        <ExpenseItem
-          title={props.formData.title}
-          amount={props.formData.amount}
-          date={props.formData.date}
-        />
+  const [filteredYear, setFilteredYear] = useState('2020');
 
-        // Update the state by creating a new array that includes the newExpense
-        setNewExpenseItemArray((prevExpenseItems) => [...prevExpenseItems, newExpense]);
-      }
-  }, [props.formData]);
+  const filterChangeHandler = (selectedYear) => {
+    setFilteredYear(selectedYear);
+  };
+
+  const filteredExpenses = props.items.filter(expense => {
+    console.log(`expense array ${JSON.stringify(expense)}`);
+    return expense.date.getFullYear().toString() === filteredYear;
+  })
   return (
     <Card className="expenses">
-      <ExpenseItem
-        title={props.items[0].title}
-        amount={props.items[0].amount}
-        date={props.items[0].date}
+      <ExpensesFilter
+        selected={filteredYear}
+        onChangeFilter={filterChangeHandler}
       />
-      <ExpenseItem
-        title={props.items[1].title}
-        amount={props.items[1].amount}
-        date={props.items[1].date}
-      />
-      <ExpenseItem
-        title={props.items[2].title}
-        amount={props.items[2].amount}
-        date={props.items[2].date}
-      />
-      <ExpenseItem
-        title={props.items[3].title}
-        amount={props.items[3].amount}
-        date={props.items[3].date}
-      />
-      <div>
-        {newExpenseItemArray}
-      </div>
+      {filteredExpenses.map((expense) => (
+        <ExpenseItem
+          key={expense.id}
+          title={expense.title}
+          amount={expense.amount}
+          date={expense.date}
+        />
+      ))}
     </Card>
   );
 }

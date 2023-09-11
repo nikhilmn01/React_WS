@@ -21,7 +21,7 @@ const ExpenseForm = (props) => {
   }
   const handleFormSubmit = (event) => {
     event.preventDefault();
-    const expenseData = {...userData,date: new Date(userData.date).toLocaleDateString()};
+    const expenseData = {...userData,date: new Date(userData.date)};
     console.log(`user data: ${JSON.stringify(userData)}`);
     console.log(`expense data: ${JSON.stringify(expenseData)}`);
     setUserData({
