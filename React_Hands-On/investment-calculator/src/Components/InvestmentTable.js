@@ -1,3 +1,4 @@
+import './InvestmentTable.css';
 const InvestmentTable = (props) => {
     if (props.tableData.length === 0) {
         return <h2 className='expenses-list__fallback'>Found no expenses.</h2>;

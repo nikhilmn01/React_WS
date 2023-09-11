@@ -5,37 +5,13 @@ import InvestmentForm from './Components/InvestmentForm';
 import InvestmentTable from './Components/InvestmentTable';
 
 function App() {
-  const calculateHandler = (userInput) => {
-    // Should be triggered when form is submitted
-    // You might not directly want to bind it to the submit event on the form though...
-
-    const yearlyData = []; // per-year results
-
-    let currentSavings = +userInput['current-savings']; // feel free to change the shape of this input object!
-    const yearlyContribution = +userInput['yearly-contribution']; // as mentioned: feel free to change the shape...
-    const expectedReturn = +userInput['expected-return'] / 100;
-    const duration = +userInput['duration'];
-
-    // The below code calculates yearly results (total savings, interest etc)
-    for (let i = 0; i < duration; i++) {
-      const yearlyInterest = currentSavings * expectedReturn;//500
-      currentSavings += yearlyInterest + yearlyContribution;//11700
-      yearlyData.push({
-        // feel free to change the shape of the data pushed to the array!
-        year: i + 1,
-        yearlyInterest: yearlyInterest,
-        savingsEndOfYear: currentSavings,
-        yearlyContribution: yearlyContribution,
-      });
-    }
-
-    // do something with yearlyData ...
-  };
-
   const [formData, setFormData] = useState([]);
   const handleFormData = (formInputData) => {
     setFormData(formInputData);
     console.log(formInputData);
+  }
+  const clearTable = () => {
+    setFormData([]);
   }
 
   return (
@@ -45,10 +21,15 @@ function App() {
         <h1>Investment Calculator</h1>
       </header>
 
-      <InvestmentForm onSubmitForm = {handleFormData}/>
-      <InvestmentTable tableData = {formData}/>
+      <InvestmentForm onSubmitForm={handleFormData} />
 
-      
+      <InvestmentTable tableData={formData} />
+
+      <div className='actions'>
+        {formData.length > 0 ? <button type="reset" className="button result" onClick={clearTable}>
+          Clear Table!
+        </button> : ''}
+      </div>
     </div>
   );
 }
